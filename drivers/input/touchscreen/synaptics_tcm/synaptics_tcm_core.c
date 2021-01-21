@@ -414,11 +414,11 @@ static ssize_t double_tap_store(struct kobject *kobj,
                 size_t count)
 {
     int rc, val;
-    
+
     rc = kstrtoint(buf, 10, &val);
     if (rc)
     return -EINVAL;
-    
+
     synaptics_gesture_enable_flag = !!val;
     return count;
 }
@@ -1866,13 +1866,18 @@ static irqreturn_t syna_tcm_isr(int irq, void *data)
 			0);
 	if (retval < 0) {
 		LOGE(tcm_hcd->pdev->dev.parent, "Failed to read message\n");
-		if (tcm_hcd->in_suspend) LOGV("TP status: suspend\n");
-		else LOGV("TP status: not suspend\n");
-		if (synaptics_gesture_enable_flag) LOGV("TP status: enabled gesture.\n");
-		else LOGV("TP status:disabled gesture.\n");
-		if (retval == -ENXIO && tcm_hcd->hw_if->bus_io->type == BUS_SPI)
+	if
+		(tcm_hcd->in_suspend) LOGV("TP status: suspend\n");
+	else
+		 LOGV("TP status: not suspend\n");
+	if
+		(synaptics_gesture_enable_flag) LOGV("TP status: enabled gesture.\n");
+	else
+		LOGV("TP status:disabled gesture.\n");
+	if
+		 (retval == -ENXIO && tcm_hcd->hw_if->bus_io->type == BUS_SPI)
 			syna_tcm_check_hdl(tcm_hcd);
-		else
+	else
 			goto irq_read_message_err;
 	}
 	syna_tcm_isr_err_count = 0;
@@ -3356,7 +3361,7 @@ static int syna_tcm_probe(struct platform_device *pdev)
 				"Failed to configure GPIO's\n");
 		goto err_config_gpio;
 	}
-    
+
 #ifdef CONFIG_TOUCHSCREEN_COMMON
     retval = tp_common_set_double_tap_ops(&double_tap_ops);
     if (retval < 0) {
